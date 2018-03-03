@@ -1,5 +1,6 @@
 package com.example.silwan.popularmovies.ui.network;
 
+import com.example.silwan.popularmovies.ui.utils.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -31,7 +32,7 @@ public class NetworkService {
                             HttpUrl originalHttpUrl = original.url();
 
                             HttpUrl url = originalHttpUrl.newBuilder()
-                                    .addQueryParameter("api_key", "8a20252960b5d243de0a1a4b325e8ad0")
+                                    .addQueryParameter("api_key", Constants.API_KEY)
                                     .build();
 
                             // Request customization: add request headers

@@ -16,6 +16,6 @@ import retrofit2.http.Path;
  */
 
 public interface MovieService {
-    @GET("movie/popular")
-    Call<MoviesResult> listRepos();
+    @GET("movie/{sort_by}")
+    Call<MoviesResult> getMovies(@Path("sort_by") String sortBy);
 }
