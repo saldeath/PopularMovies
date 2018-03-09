@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mMoviesRecyclerView;
     private MovieAdapter mMovieAdapter;
+    private MovieService mNetworkService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initScreen() {
+        mNetworkService = NetworkService.createService(MovieService.class);
+
         mMoviesRecyclerView = findViewById(R.id.rv_movie_list);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         mMoviesRecyclerView.setLayoutManager(gridLayoutManager);
@@ -45,8 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getMovies(String sort) {
-        MovieService networkService = NetworkService.createService(MovieService.class);
-        Call<MoviesResult> movieList = networkService.getMovies(sort);
+        Call<MoviesResult> movieList = mNetworkService.getMovies(sort);
 
         movieList.enqueue(new Callback<MoviesResult>() {
             @Override
