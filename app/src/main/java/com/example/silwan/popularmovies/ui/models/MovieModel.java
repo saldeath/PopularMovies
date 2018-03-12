@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -190,6 +193,16 @@ public class MovieModel implements Parcelable{
     }
 
     public String getReleaseDate() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd", java.util.Locale.getDefault());
+        Date newDate = null;
+        try {
+            newDate = format.parse(releaseDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        format = new SimpleDateFormat("MMM dd, yyyy");
+        String releaseDate = format.format(newDate);
         return releaseDate;
     }
 
