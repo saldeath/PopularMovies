@@ -24,6 +24,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     private Context mContext;
     private List<MovieModel> mMovies = new ArrayList<>();
+    private MovieAdapterOnClickHandler mMovieAdapterOnClickHandler;
+
+    public MovieAdapter(MovieAdapterOnClickHandler movieAdapterOnClickHandler) {
+        this.mMovieAdapterOnClickHandler = movieAdapterOnClickHandler;
+    }
 
     @NonNull
     @Override
@@ -48,11 +53,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         notifyDataSetChanged();
     }
 
-    public static class MovieAdapterViewHolder extends RecyclerView.ViewHolder {
+    public interface MovieAdapterOnClickHandler {
+        void onClick(MovieModel movieModel);
+    }
+
+    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView mPoster;
         private MovieAdapterViewHolder(View itemView) {
             super(itemView);
             mPoster = itemView.findViewById(R.id.iv_poster);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mMovieAdapterOnClickHandler.onClick(mMovies.get(getAdapterPosition()));
         }
     }
 }

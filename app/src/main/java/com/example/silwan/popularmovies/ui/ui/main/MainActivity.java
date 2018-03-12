@@ -1,16 +1,21 @@
 package com.example.silwan.popularmovies.ui.ui.main;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.silwan.popularmovies.R;
 import com.example.silwan.popularmovies.ui.interfaces.MovieService;
 import com.example.silwan.popularmovies.ui.models.MovieModel;
 import com.example.silwan.popularmovies.ui.models.MoviesResult;
 import com.example.silwan.popularmovies.ui.network.NetworkService;
+import com.example.silwan.popularmovies.ui.ui.details.DetailsActivity;
 import com.example.silwan.popularmovies.ui.utils.Constants;
 
 import java.util.List;
@@ -20,7 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
     private RecyclerView mMoviesRecyclerView;
     private MovieAdapter mMovieAdapter;
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         mMoviesRecyclerView.setLayoutManager(gridLayoutManager);
         mMoviesRecyclerView.setHasFixedSize(true);
 
-        mMovieAdapter = new MovieAdapter();
+        mMovieAdapter = new MovieAdapter(this);
         mMoviesRecyclerView.setAdapter(mMovieAdapter);
     }
 
@@ -62,5 +67,34 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("test", call + "" + t);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_most_popular:
+                getMovies(Constants.SORT_BY_POPULAR);
+                return true;
+            case R.id.action_top_rated:
+                getMovies(Constants.SORT_BY_TOP_RATED);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_sort, menu);
+        return true;
+    }
+
+    @Override
+    public void onClick(MovieModel movieModel) {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra(Constants.MOVIE_KEY, movieModel);
+        startActivity(intent);
     }
 }
