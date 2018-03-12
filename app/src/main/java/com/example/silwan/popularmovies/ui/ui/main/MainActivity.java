@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.silwan.popularmovies.R;
 import com.example.silwan.popularmovies.ui.interfaces.MovieService;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
             @Override
             public void onFailure(Call<MoviesResult> call, Throwable t) {
-                Log.d("test", call + "" + t);
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

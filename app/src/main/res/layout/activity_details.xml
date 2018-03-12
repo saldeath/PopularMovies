@@ -13,8 +13,9 @@
 
         <ImageView
             android:id="@+id/imageView"
+            android:scaleType="fitXY"
             android:layout_width="0dp"
-            android:layout_height="210dp"
+            android:layout_height="240dp"
             app:imageUrl="@{movie.backdropPath}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
