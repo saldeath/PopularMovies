@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +17,7 @@ import com.example.silwan.popularmovies.ui.models.MoviesResult;
 import com.example.silwan.popularmovies.ui.network.NetworkService;
 import com.example.silwan.popularmovies.ui.ui.details.DetailsActivity;
 import com.example.silwan.popularmovies.ui.utils.Constants;
+import com.example.silwan.popularmovies.ui.utils.NetworkUtils;
 
 import java.util.List;
 
@@ -36,9 +36,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initScreen();
-        getMovies(Constants.SORT_BY_POPULAR);
+        checkInternetConnection();
     }
 
     private void initScreen() {
@@ -97,5 +96,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra(Constants.MOVIE_KEY, movieModel);
         startActivity(intent);
+    }
+
+    private void checkInternetConnection(){
+        if(NetworkUtils.isOnline(this)){
+            getMovies(Constants.SORT_BY_POPULAR);
+        } else {
+            Toast.makeText(MainActivity.this, "No internet connection available", Toast.LENGTH_SHORT).show();
+        }
     }
 }
