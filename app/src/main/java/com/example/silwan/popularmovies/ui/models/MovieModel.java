@@ -201,7 +201,7 @@ public class MovieModel implements Parcelable{
             e.printStackTrace();
         }
 
-        format = new SimpleDateFormat("MMM dd, yyyy");
+        format = new SimpleDateFormat("MM/dd/yyyy");
         String releaseDate = format.format(newDate);
         return releaseDate;
     }
