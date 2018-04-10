@@ -16,4 +16,11 @@ public class Constants {
      * KEYS
      */
     public static final String MOVIE_KEY = "movie";
+
+    /**
+     * Youtube
+     */
+
+    public static final String YOUTUBE_THUMBNAIL_BASE_PATH = "http://img.youtube.com/vi";
+//    public static final String
 }

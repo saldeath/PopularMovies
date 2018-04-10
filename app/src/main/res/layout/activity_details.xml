@@ -80,6 +80,19 @@
             app:layout_constraintStart_toStartOf="@+id/iv_poster"
             app:layout_constraintTop_toBottomOf="@+id/iv_poster"/>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_trailer_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_overview"/>
+
     </android.support.constraint.ConstraintLayout>
+
+
     </ScrollView>
 </layout>
