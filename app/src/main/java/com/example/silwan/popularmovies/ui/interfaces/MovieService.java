@@ -4,6 +4,7 @@ import android.graphics.Movie;
 
 import com.example.silwan.popularmovies.ui.models.MovieModel;
 import com.example.silwan.popularmovies.ui.models.MoviesResult;
+import com.example.silwan.popularmovies.ui.models.ReviewsResult;
 import com.example.silwan.popularmovies.ui.models.TrailerModel;
 import com.example.silwan.popularmovies.ui.models.TrailerResult;
 
@@ -23,4 +24,7 @@ public interface MovieService {
 
     @GET("movie/{movie_id}/videos")
     Call<TrailerResult> getTrailers(@Path("movie_id") int movieId);
+
+    @GET("movie/{movie_id}/reviews")
+    Call<ReviewsResult> getReviews(@Path("movie_id") int movieId);
 }

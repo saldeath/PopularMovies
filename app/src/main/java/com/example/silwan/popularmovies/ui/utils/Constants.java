@@ -11,6 +11,8 @@ public class Constants {
     public static final String SORT_BY_POPULAR = "popular";
     public static final String SORT_BY_TOP_RATED = "top_rated";
     public static final String IMAGE_PATH = "https://image.tmdb.org/t/p/w500/";
+    public static final String YOUTUBE_URL = "https://www.youtube.com/watch";
+    public static final String VIEW_PARAM = "v";
 
     /**
      * KEYS

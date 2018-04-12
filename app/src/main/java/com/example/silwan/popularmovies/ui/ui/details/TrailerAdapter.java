@@ -1,6 +1,7 @@
 package com.example.silwan.popularmovies.ui.ui.details;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +21,11 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
     private Context mContext;
     private List<TrailerModel> mTrailers = new ArrayList<>();
+    public final TrailerAdapterOnClickHandler mOnClickHandler;
+
+    public TrailerAdapter(TrailerAdapterOnClickHandler mOnClickHandler) {
+        this.mOnClickHandler = mOnClickHandler;
+    }
 
     @NonNull
     @Override
@@ -34,8 +40,12 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
         TrailerModel trailerModel = mTrailers.get(position);
 
         Glide.with(mContext)
-            .load(NetworkUtils.buildUrl(trailerModel.getKey()))
+            .load(NetworkUtils.buildYoutubeThumbnailUrl(trailerModel.getKey()))
             .into(holder.mImageView);
+    }
+
+    public interface TrailerAdapterOnClickHandler {
+        void onClick(Uri Uri);
     }
 
     @Override
@@ -48,13 +58,21 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView mImageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.iv_thumbnail);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Uri key = NetworkUtils.buildYoutubeUrl(mTrailers.get(getAdapterPosition()).getKey());
+
+            mOnClickHandler.onClick(key);
         }
     }
 }
