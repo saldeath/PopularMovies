@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 public class MoviesContentProvider extends ContentProvider {
 
     public static final int MOVIES = 100;
+    public static final int MOVIES_WITH_ID = 101;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -21,6 +22,7 @@ public class MoviesContentProvider extends ContentProvider {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
         uriMatcher.addURI(MoviesContract.AUTHORITY, MoviesContract.PATH_MOVIES, MOVIES);
+        uriMatcher.addURI(MoviesContract.AUTHORITY, MoviesContract.PATH_MOVIES + "/#", MOVIES_WITH_ID);
 
         return uriMatcher;
     }
@@ -38,7 +40,36 @@ public class MoviesContentProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         final SQLiteDatabase db = mMoviesDbHelper.getReadableDatabase();
-        return null;
+        int match = sUriMatcher.match(uri);
+
+        Cursor cursor;
+
+        switch (match){
+            case MOVIES:
+                cursor = db.query(MoviesContract.MoviesEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            case MOVIES_WITH_ID:
+                cursor = db.query(MoviesContract.MoviesEntry.TABLE_NAME,
+                        projection,
+                        MoviesContract.MoviesEntry.COLUMN_ID + " = ? ",
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+                default:
+                    throw new UnsupportedOperationException();
+        }
+
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+        return cursor;
     }
 
     @Nullable
@@ -70,7 +101,21 @@ public class MoviesContentProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        int movieDeleted;
+        int match = sUriMatcher.match(uri);
+
+        switch (match){
+            case MOVIES_WITH_ID:
+                String id = uri.getPathSegments().get(1);
+                movieDeleted = mMoviesDbHelper.getWritableDatabase().delete(
+                        MoviesContract.MoviesEntry.TABLE_NAME,
+                        "id=?",
+                        new String[]{id});
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+        return movieDeleted;
     }
 
     @Override

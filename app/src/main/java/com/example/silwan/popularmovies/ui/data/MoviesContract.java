@@ -1,7 +1,6 @@
 package com.example.silwan.popularmovies.ui.data;
 
 import android.net.Uri;
-import android.provider.BaseColumns;
 
 public class MoviesContract {
     public static final String AUTHORITY = "com.example.silwan.popularmovies";
