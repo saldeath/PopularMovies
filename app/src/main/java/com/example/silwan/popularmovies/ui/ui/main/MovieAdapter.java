@@ -1,6 +1,7 @@
 package com.example.silwan.popularmovies.ui.ui.main;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.silwan.popularmovies.R;
+import com.example.silwan.popularmovies.ui.data.MoviesContract;
 import com.example.silwan.popularmovies.ui.models.MovieModel;
 import com.example.silwan.popularmovies.ui.utils.Constants;
 
@@ -25,6 +27,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     private Context mContext;
     private List<MovieModel> mMovies = new ArrayList<>();
     private MovieAdapterOnClickHandler mMovieAdapterOnClickHandler;
+    private Cursor mCursor;
 
     public MovieAdapter(MovieAdapterOnClickHandler movieAdapterOnClickHandler) {
         this.mMovieAdapterOnClickHandler = movieAdapterOnClickHandler;
@@ -50,6 +53,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     public void setMovies(List<MovieModel> movies){
         mMovies = movies;
+        notifyDataSetChanged();
+    }
+
+    public void swapCursor(Cursor c) {
+        mCursor = c;
         notifyDataSetChanged();
     }
 

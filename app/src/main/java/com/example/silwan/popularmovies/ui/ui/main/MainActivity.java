@@ -2,10 +2,12 @@ package com.example.silwan.popularmovies.ui.ui.main;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.silwan.popularmovies.R;
+import com.example.silwan.popularmovies.ui.data.MoviesContract;
 import com.example.silwan.popularmovies.ui.interfaces.MovieService;
 import com.example.silwan.popularmovies.ui.models.MovieModel;
 import com.example.silwan.popularmovies.ui.models.MoviesResult;
@@ -24,6 +27,7 @@ import com.example.silwan.popularmovies.ui.ui.details.DetailsActivity;
 import com.example.silwan.popularmovies.ui.utils.Constants;
 import com.example.silwan.popularmovies.ui.utils.NetworkUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,6 +40,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private RecyclerView mMoviesRecyclerView;
     private MovieAdapter mMovieAdapter;
     private MovieService mNetworkService;
+
+    private Cursor mCursor;
+    private List<MovieModel> localMovies = new ArrayList<>();
+
+    private static final int ID_MOVIE_LOADER = 33;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         mMovieAdapter = new MovieAdapter(this);
         mMoviesRecyclerView.setAdapter(mMovieAdapter);
+
+        getSupportLoaderManager().initLoader(ID_MOVIE_LOADER, null, this);
+
     }
 
     private void getMovies(String sort) {
@@ -84,9 +96,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             case R.id.action_top_rated:
                 getMovies(Constants.SORT_BY_TOP_RATED);
                 return true;
+            case R.id.action_favorite:
+                showFavorite();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showFavorite() {
+        getFavoriteMovies();
+        mMovieAdapter.setMovies(localMovies);
     }
 
     @Override
@@ -98,9 +118,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     public void onClick(MovieModel movieModel) {
-        Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra(Constants.MOVIE_KEY, movieModel);
-        startActivity(intent);
+        if(movieModel.getId() > 0) {
+            Intent intent = new Intent(this, DetailsActivity.class);
+            intent.putExtra(Constants.MOVIE_KEY, movieModel);
+            startActivity(intent);
+        }
     }
 
     private void checkInternetConnection(){
@@ -111,15 +133,31 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
     }
 
+    private void getFavoriteMovies(){
+        localMovies.clear();
+        for(mCursor.moveToFirst(); !mCursor.isAfterLast(); mCursor.moveToNext()){
+            MovieModel movieModel = new MovieModel();
+            movieModel.setPosterPath((mCursor.getString(mCursor.getColumnIndex(MoviesContract.MoviesEntry.COLUMN_POSTER_PATH))));
+            localMovies.add(movieModel);
+        }
+    }
+
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return null;
+
+        switch (id){
+            case ID_MOVIE_LOADER:
+                Uri uri = MoviesContract.MoviesEntry.CONTENT_URI;
+                return new CursorLoader(this, uri, null,null,null,null);
+            default:
+                throw new RuntimeException("Loader Not Implemented: " + id);
+        }
     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-
+        mCursor = data;
     }
 
     @Override

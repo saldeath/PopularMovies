@@ -60,7 +60,11 @@ public class MovieModel implements Parcelable{
     @Expose
     private String releaseDate;
 
-    protected MovieModel(Parcel in) {
+    public MovieModel(){
+
+    }
+
+    public MovieModel(Parcel in) {
         voteCount = in.readInt();
         id = in.readInt();
         video = in.readByte() != 0;
