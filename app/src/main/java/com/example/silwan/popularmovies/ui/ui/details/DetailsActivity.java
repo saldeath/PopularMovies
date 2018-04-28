@@ -99,9 +99,9 @@ public class DetailsActivity extends AppCompatActivity implements
             ContentValues contentValues = new ContentValues();
             contentValues.put(MoviesContract.MoviesEntry.COLUMN_ID, mMovieModel.getId());
             contentValues.put(MoviesContract.MoviesEntry.COLUMN_POSTER_PATH, mMovieModel.getPosterPath());
-            contentValues.put(MoviesContract.MoviesEntry.COLUMN_TITLE, mMovieModel.getTitle());
+            contentValues.put(MoviesContract.MoviesEntry.COLUMN_TITLE, mMovieModel.getOriginalTitle());
             contentValues.put(MoviesContract.MoviesEntry.COLUMN_BACK_DROP_PATH, mMovieModel.getBackdropPath());
-            contentValues.put(MoviesContract.MoviesEntry.COLUMN_RELEASE_DATE, mMovieModel.getReleaseDate());
+            contentValues.put(MoviesContract.MoviesEntry.COLUMN_RELEASE_DATE, mMovieModel.getNonFormattedReleaseDate());
             contentValues.put(MoviesContract.MoviesEntry.COLUMN_VOTE_AVERAGE, mMovieModel.getVoteAverage());
             contentValues.put(MoviesContract.MoviesEntry.COLUMN_OVERVIEW, mMovieModel.getOverview());
 

@@ -3,6 +3,7 @@ package com.example.silwan.popularmovies.ui.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class MoviesResult {
     private int totalPages;
     @SerializedName("results")
     @Expose
-    private List<MovieModel> results = null;
+    private ArrayList<MovieModel> results = null;
 
     public int getPage() {
         return page;
@@ -47,11 +48,11 @@ public class MoviesResult {
         this.totalPages = totalPages;
     }
 
-    public List<MovieModel> getResults() {
+    public ArrayList<MovieModel> getResults() {
         return results;
     }
 
-    public void setResults(List<MovieModel> results) {
+    public void setResults(ArrayList<MovieModel> results) {
         this.results = results;
     }
 }

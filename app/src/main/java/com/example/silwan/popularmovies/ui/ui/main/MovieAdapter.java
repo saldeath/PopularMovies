@@ -25,7 +25,7 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder>{
 
     private Context mContext;
-    private List<MovieModel> mMovies = new ArrayList<>();
+    private ArrayList<MovieModel> mMovies = new ArrayList<>();
     private MovieAdapterOnClickHandler mMovieAdapterOnClickHandler;
     private Cursor mCursor;
 
@@ -51,15 +51,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         return mMovies.size();
     }
 
-    public void setMovies(List<MovieModel> movies){
+    public void setMovies(ArrayList<MovieModel> movies){
         mMovies = movies;
         notifyDataSetChanged();
     }
 
-    public void swapCursor(Cursor c) {
-        mCursor = c;
-        notifyDataSetChanged();
-    }
 
     public interface MovieAdapterOnClickHandler {
         void onClick(MovieModel movieModel);

@@ -210,6 +210,10 @@ public class MovieModel implements Parcelable{
         return releaseDate;
     }
 
+    public String getNonFormattedReleaseDate(){
+        return releaseDate;
+    }
+
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
