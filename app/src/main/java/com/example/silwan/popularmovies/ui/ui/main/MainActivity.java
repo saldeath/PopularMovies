@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(MOVIES, localMovies);
-        outState.putParcelable(SCROLL_POSITION, gridLayoutManager.onSaveInstanceState());
+        outState.putParcelable(SCROLL_POSITION, mMoviesRecyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     @NonNull

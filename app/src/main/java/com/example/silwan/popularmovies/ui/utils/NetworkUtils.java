@@ -38,15 +38,6 @@ public class NetworkUtils {
                 .appendQueryParameter(Constants.VIEW_PARAM, key)
                 .build();
 
-//        try {
-//            URL trailerQueryUrl = new URL(youtubeUri.toString());
-//            Log.v(TAG, "URL: " + trailerQueryUrl);
-//            return trailerQueryUrl;
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-
         return youtubeUri;
     }
 }
